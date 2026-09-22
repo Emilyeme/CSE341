@@ -5,3 +5,37 @@ GET http://localhost:8080/contacts
 
 ### Get one contact by ID
 GET http://localhost:8080/contacts/6aad0723bc37c60302582993
+
+### Create a new contact
+POST http://localhost:8080/contacts
+Content-Type: application/json
+
+{
+  "firstName": "David",
+  "lastName": "Brown",
+  "email": "davidbrown@gmail.com",
+  "favoriteColor": "Red",
+  "birthday": "1999-03-25"
+}
+
+### Update a contact
+PUT http://localhost:8080/contacts/6ab1bd9bd9c9f6180e1493b2
+Content-Type: application/json
+
+{
+  "firstName": "David",
+  "lastName": "Brown",
+  "email": "davidbrown@gmail.com",
+  "favoriteColor": "Orange",
+  "birthday": "1999-03-25"
+}
+
+### Get updated contact
+GET http://localhost:8080/contacts/6ab1bd9bd9c9f6180e1493b2
+
+
+### Delete contact
+DELETE http://localhost:8080/contacts/6ab1bd9bd9c9f6180e1493b2
+
+### Verify deleted contact
+GET http://localhost:8080/contacts/6ab1bd9bd9c9f6180e1493b2
