@@ -39,3 +39,6 @@ DELETE http://localhost:8080/contacts/6ab1bd9bd9c9f6180e1493b2
 
 ### Verify deleted contact
 GET http://localhost:8080/contacts/6ab1bd9bd9c9f6180e1493b2
+
+### GET contact with invalid ID
+GET http://localhost:8080/contacts/hello

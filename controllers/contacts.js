@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Contact from "../models/contacts.js";
 
 // GET all contacts
@@ -14,9 +15,17 @@ export const getAllContacts = async (req, res) => {
   }
 };
 
+
 // GET one contact by ID
 export const getContactById = async (req, res) => {
   try {
+    // Check if the ID is a valid MongoDB ID
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: "Invalid contact ID"
+      });
+    }
+
     const contact = await Contact.findById(req.params.id);
 
     if (!contact) {
@@ -26,6 +35,7 @@ export const getContactById = async (req, res) => {
     }
 
     res.status(200).json(contact);
+
   } catch (error) {
     res.status(500).json({
       message: "Error retrieving contact",
@@ -33,6 +43,7 @@ export const getContactById = async (req, res) => {
     });
   }
 };
+
 
 // POST create a new contact
 export const createContact = async (req, res) => {
@@ -45,6 +56,7 @@ export const createContact = async (req, res) => {
       birthday
     } = req.body;
 
+    // Check that all fields were provided
     if (
       !firstName ||
       !lastName ||
@@ -71,7 +83,19 @@ export const createContact = async (req, res) => {
       message: "Contact created successfully",
       contactId: savedContact._id
     });
+
   } catch (error) {
+
+    // Mongoose validation error
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        message: "Validation error",
+        errors: Object.values(error.errors).map(
+          (err) => err.message
+        )
+      });
+    }
+
     res.status(500).json({
       message: "Error creating contact",
       error: error.message
@@ -79,9 +103,17 @@ export const createContact = async (req, res) => {
   }
 };
 
+
 // PUT update a contact
 export const updateContact = async (req, res) => {
   try {
+    // Check if the ID is valid
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: "Invalid contact ID"
+      });
+    }
+
     const {
       firstName,
       lastName,
@@ -90,6 +122,7 @@ export const updateContact = async (req, res) => {
       birthday
     } = req.body;
 
+    // Check that all fields were provided
     if (
       !firstName ||
       !lastName ||
@@ -124,7 +157,19 @@ export const updateContact = async (req, res) => {
     }
 
     res.status(204).send();
+
   } catch (error) {
+
+    // Mongoose validation error
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        message: "Validation error",
+        errors: Object.values(error.errors).map(
+          (err) => err.message
+        )
+      });
+    }
+
     res.status(500).json({
       message: "Error updating contact",
       error: error.message
@@ -132,10 +177,20 @@ export const updateContact = async (req, res) => {
   }
 };
 
+
 // DELETE a contact
 export const deleteContact = async (req, res) => {
   try {
-    const deletedContact = await Contact.findByIdAndDelete(req.params.id);
+    // Check if the ID is valid
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({
+        message: "Invalid contact ID"
+      });
+    }
+
+    const deletedContact = await Contact.findByIdAndDelete(
+      req.params.id
+    );
 
     if (!deletedContact) {
       return res.status(404).json({
@@ -144,6 +199,7 @@ export const deleteContact = async (req, res) => {
     }
 
     res.status(204).send();
+
   } catch (error) {
     res.status(500).json({
       message: "Error deleting contact",
