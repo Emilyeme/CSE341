@@ -1,0 +1,123 @@
+### Get all destinations
+GET http://localhost:8080/destinations
+
+
+### Create a destination
+POST http://localhost:8080/destinations
+Content-Type: application/json
+
+{
+  "name": "Murchison Falls National Park",
+  "location": "Masindi, Uganda",
+  "description": "A beautiful national park famous for Murchison Falls and wildlife safaris.",
+  "price": 250000,
+  "duration": "2 days",
+  "category": "Safari",
+  "available": true,
+  "image": "murchison-falls.jpg"
+}
+### Get all bookings
+GET http://localhost:8080/bookings
+
+
+### Create a booking
+POST http://localhost:8080/bookings
+Content-Type: application/json
+
+{
+  "customerName": "Emily Emerson",
+  "email": "emily@gmail.com",
+  "phone": "0700000000",
+  "destination": "Murchison Falls National Park",
+  "travelDate": "2026-12-15",
+  "numberOfPeople": 2,
+  "status": "Pending",
+  "specialRequests": "Please arrange an early morning game drive."
+}
+### Update a destination
+PUT http://localhost:8080/destinations/6abd7624387e16b26e460c68
+Content-Type: application/json
+
+{
+  "name": "Murchison Falls National Park",
+  "location": "Masindi, Uganda",
+  "description": "A beautiful national park famous for Murchison Falls, wildlife safaris, and boat cruises.",
+  "price": 300000,
+  "duration": "3 days",
+  "category": "Safari",
+  "available": true,
+  "image": "murchison-falls.jpg"
+}
+
+### Delete a destination
+DELETE http://localhost:8080/destinations/6abd3583387e16b26e460c65
+
+### Update a booking
+PUT http://localhost:8080/bookings/6abd752a387e16b26e460c66
+Content-Type: application/json
+
+{
+  "customerName": "Emily Emerson",
+  "email": "emily@gmail.com",
+  "phone": "0700000000",
+  "destination": "Murchison Falls National Park",
+  "travelDate": "2026-12-20",
+  "numberOfPeople": 3,
+  "status": "Confirmed",
+  "specialRequests": "Please arrange an early morning game drive."
+}
+### Delete a booking
+DELETE http://localhost:8080/bookings/6abd752a387e16b26e460c66
+
+
+### Test booking validation - missing required fields
+POST http://localhost:8080/bookings
+Content-Type: application/json
+
+{
+    "name": "",
+    "email": "",
+    "destination": ""
+}
+
+### Test destination validation - missing required fields
+POST http://localhost:8080/destinations
+Content-Type: application/json
+
+{
+    "name": "",
+    "location": "",
+    "description": ""
+}
+
+### Test GET booking with invalid ID
+GET http://localhost:8080/bookings/999999999
+
+### Test GET destination with invalid ID
+GET http://localhost:8080/destinations/999999999
+
+### Test PUT with non-existent booking
+PUT http://localhost:8080/bookings/999999999
+Content-Type: application/json
+
+{
+    "name": "Test User",
+    "email": "test@example.com",
+    "destination": "Murchison Falls"
+}
+
+### Test PUT with non-existent destination
+PUT http://localhost:8080/destinations/999999999
+Content-Type: application/json
+
+{
+    "name": "Test Destination",
+    "location": "Uganda",
+    "description": "Test description"
+}
+
+### Test DELETE with non-existent booking
+DELETE http://localhost:8080/bookings/999999999
+
+### Test DELETE with non-existent destination
+DELETE http://localhost:8080/destinations/999999999

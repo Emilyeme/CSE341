@@ -1,0 +1,355 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Fremer Tours and Travel API",
+    "description": "REST API for managing tour destinations and customer bookings for Fremer Tours and Travel.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local development server"
+    }
+  ],
+  "paths": {
+    "/bookings": {
+      "get": {
+        "summary": "Get all bookings",
+        "responses": {
+          "200": {
+            "description": "Bookings retrieved successfully"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a booking",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Booking created successfully"
+          },
+          "400": {
+            "description": "Validation error"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/bookings/{id}": {
+      "get": {
+        "summary": "Get a booking by ID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Booking retrieved successfully"
+          },
+          "400": {
+            "description": "Invalid booking ID"
+          },
+          "404": {
+            "description": "Booking not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a booking",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Booking"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Booking updated successfully"
+          },
+          "400": {
+            "description": "Validation error or invalid booking ID"
+          },
+          "404": {
+            "description": "Booking not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a booking",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Booking deleted successfully"
+          },
+          "400": {
+            "description": "Invalid booking ID"
+          },
+          "404": {
+            "description": "Booking not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/destinations": {
+      "get": {
+        "summary": "Get all destinations",
+        "responses": {
+          "200": {
+            "description": "Destinations retrieved successfully"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a destination",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Destination"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Destination created successfully"
+          },
+          "400": {
+            "description": "Validation error"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/destinations/{id}": {
+      "get": {
+        "summary": "Get a destination by ID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Destination retrieved successfully"
+          },
+          "400": {
+            "description": "Invalid destination ID"
+          },
+          "404": {
+            "description": "Destination not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a destination",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Destination"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Destination updated successfully"
+          },
+          "400": {
+            "description": "Validation error or invalid destination ID"
+          },
+          "404": {
+            "description": "Destination not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a destination",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Destination deleted successfully"
+          },
+          "400": {
+            "description": "Invalid destination ID"
+          },
+          "404": {
+            "description": "Destination not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "id": {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "MongoDB ObjectId",
+        "schema": {
+          "type": "string"
+        }
+      }
+    },
+    "schemas": {
+      "Booking": {
+        "type": "object",
+        "required": [
+          "customerName",
+          "email",
+          "phone",
+          "destination",
+          "travelDate",
+          "numberOfPeople"
+        ],
+        "properties": {
+          "customerName": {
+            "type": "string",
+            "example": "Emily Emerson"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "emily@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+256700000000"
+          },
+          "destination": {
+            "type": "string",
+            "example": "Murchison Falls"
+          },
+          "travelDate": {
+            "type": "string",
+            "format": "date",
+            "example": "2026-12-15"
+          },
+          "numberOfPeople": {
+            "type": "integer",
+            "example": 2
+          },
+          "status": {
+            "type": "string",
+            "example": "pending"
+          },
+          "specialRequests": {
+            "type": "string",
+            "example": "Airport pickup requested"
+          }
+        }
+      },
+      "Destination": {
+        "type": "object",
+        "required": [
+          "name",
+          "location",
+          "description",
+          "price",
+          "duration",
+          "category",
+          "available",
+          "image"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Murchison Falls National Park"
+          },
+          "location": {
+            "type": "string",
+            "example": "Uganda"
+          },
+          "description": {
+            "type": "string",
+            "example": "A popular safari destination in Uganda."
+          },
+          "price": {
+            "type": "number",
+            "example": 250000
+          },
+          "duration": {
+            "type": "string",
+            "example": "3 days"
+          },
+          "category": {
+            "type": "string",
+            "example": "Safari"
+          },
+          "available": {
+            "type": "boolean",
+            "example": true
+          },
+          "image": {
+            "type": "string",
+            "example": "murchison-falls.jpg"
+          }
+        }
+      }
+    }
+  }
+}
