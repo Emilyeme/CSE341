@@ -12,20 +12,80 @@
     }
   ],
   "paths": {
+    "/auth/github": {
+      "get": {
+        "summary": "Login with GitHub",
+        "description": "Redirects the user to GitHub to authenticate.",
+        "responses": {
+          "302": {
+            "description": "Redirect to GitHub for authentication"
+          }
+        }
+      }
+    },
+    "/auth/github/callback": {
+      "get": {
+        "summary": "GitHub OAuth callback",
+        "description": "Handles the response from GitHub after successful authentication.",
+        "responses": {
+          "200": {
+            "description": "GitHub login successful"
+          },
+          "401": {
+            "description": "GitHub login failed"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "summary": "Logout",
+        "description": "Logs out the currently authenticated user and destroys the session.",
+        "responses": {
+          "200": {
+            "description": "Logout successful"
+          }
+        }
+      }
+    },
+    "/auth/login-failed": {
+      "get": {
+        "summary": "Login failed",
+        "description": "Returns an error when GitHub authentication fails.",
+        "responses": {
+          "401": {
+            "description": "GitHub login failed"
+          }
+        }
+      }
+    },
     "/bookings": {
       "get": {
         "summary": "Get all bookings",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Bookings retrieved successfully"
           },
           "500": {
             "description": "Server error"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
           }
         }
       },
       "post": {
         "summary": "Create a booking",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -45,6 +105,9 @@
           },
           "500": {
             "description": "Server error"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
           }
         }
       }
@@ -52,6 +115,11 @@
     "/bookings/{id}": {
       "get": {
         "summary": "Get a booking by ID",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/id"
@@ -69,6 +137,9 @@
           },
           "500": {
             "description": "Server error"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
           }
         }
       },
@@ -101,11 +172,24 @@
           },
           "500": {
             "description": "Server error"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
           }
-        }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ]
       },
       "delete": {
         "summary": "Delete a booking",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/id"
@@ -123,6 +207,9 @@
           },
           "500": {
             "description": "Server error"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
           }
         }
       }
@@ -130,17 +217,30 @@
     "/destinations": {
       "get": {
         "summary": "Get all destinations",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Destinations retrieved successfully"
           },
           "500": {
             "description": "Server error"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
           }
         }
       },
       "post": {
         "summary": "Create a destination",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -160,6 +260,9 @@
           },
           "500": {
             "description": "Server error"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
           }
         }
       }
@@ -167,6 +270,11 @@
     "/destinations/{id}": {
       "get": {
         "summary": "Get a destination by ID",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/id"
@@ -184,11 +292,19 @@
           },
           "500": {
             "description": "Server error"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
           }
         }
       },
       "put": {
         "summary": "Update a destination",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/id"
@@ -216,11 +332,19 @@
           },
           "500": {
             "description": "Server error"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
           }
         }
       },
       "delete": {
         "summary": "Delete a destination",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/id"
@@ -238,12 +362,23 @@
           },
           "500": {
             "description": "Server error"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
           }
         }
       }
     }
   },
   "components": {
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "connect.sid",
+        "description": "Session cookie created after successful GitHub OAuth login."
+      }
+    },
     "parameters": {
       "id": {
         "name": "id",

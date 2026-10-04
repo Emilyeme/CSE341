@@ -1,4 +1,5 @@
 import express from "express";
+import { isAuthenticated } from "../middleware/authenticate.js";
 
 import {
   getAllBookings,
@@ -11,18 +12,18 @@ import {
 const router = express.Router();
 
 // GET all bookings
-router.get("/", getAllBookings);
+router.get("/", isAuthenticated, getAllBookings);
 
 // GET one booking
-router.get("/:id", getBookingById);
+router.get("/:id", isAuthenticated, getBookingById);
 
 // POST create a booking
-router.post("/", createBooking);
+router.post("/", isAuthenticated, createBooking);
 
 // PUT update a booking
-router.put("/:id", updateBooking);
+router.put("/:id", isAuthenticated, updateBooking);
 
 // DELETE a booking
-router.delete("/:id", deleteBooking);
+router.delete("/:id", isAuthenticated, deleteBooking);
 
 export default router;
