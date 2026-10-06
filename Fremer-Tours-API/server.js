@@ -10,6 +10,8 @@ import passport from "./config/passport.js";
 import connectDB from "./config/db.js";
 import destinationRoutes from "./routes/destinations.js";
 import bookingRoutes from "./routes/bookings.js";
+import hotelRoutes from "./routes/hotels.js";
+import tourRoutes from "./routes/tours.js";
 import authRoutes from "./routes/auth.js";
 
 
@@ -47,6 +49,8 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/destinations", destinationRoutes);
 app.use("/bookings", bookingRoutes);
+app.use("/hotels", hotelRoutes);
+app.use("/tours", tourRoutes);
 app.use("/auth", authRoutes);
 
 // Connect to MongoDB

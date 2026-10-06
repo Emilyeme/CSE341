@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Fremer Tours and Travel API",
-    "description": "REST API for managing tour destinations and customer bookings for Fremer Tours and Travel.",
+    "description": "REST API for managing destinations, bookings, hotels, and tours for Fremer Tours and Travel.",
     "version": "1.0.0"
   },
   "servers": [
@@ -59,6 +59,7 @@
         }
       }
     },
+
     "/bookings": {
       "get": {
         "summary": "Get all bookings",
@@ -71,11 +72,11 @@
           "200": {
             "description": "Bookings retrieved successfully"
           },
-          "500": {
-            "description": "Server error"
-          },
           "401": {
             "description": "Authentication required. Please log in with GitHub."
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       },
@@ -103,15 +104,16 @@
           "400": {
             "description": "Validation error"
           },
-          "500": {
-            "description": "Server error"
-          },
           "401": {
             "description": "Authentication required. Please log in with GitHub."
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
     },
+
     "/bookings/{id}": {
       "get": {
         "summary": "Get a booking by ID",
@@ -132,19 +134,24 @@
           "400": {
             "description": "Invalid booking ID"
           },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
           "404": {
             "description": "Booking not found"
           },
           "500": {
             "description": "Server error"
-          },
-          "401": {
-            "description": "Authentication required. Please log in with GitHub."
           }
         }
       },
       "put": {
         "summary": "Update a booking",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/id"
@@ -167,21 +174,16 @@
           "400": {
             "description": "Validation error or invalid booking ID"
           },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
           "404": {
             "description": "Booking not found"
           },
           "500": {
             "description": "Server error"
-          },
-          "401": {
-            "description": "Authentication required. Please log in with GitHub."
           }
-        },
-        "security": [
-          {
-            "cookieAuth": []
-          }
-        ]
+        }
       },
       "delete": {
         "summary": "Delete a booking",
@@ -202,18 +204,19 @@
           "400": {
             "description": "Invalid booking ID"
           },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
           "404": {
             "description": "Booking not found"
           },
           "500": {
             "description": "Server error"
-          },
-          "401": {
-            "description": "Authentication required. Please log in with GitHub."
           }
         }
       }
     },
+
     "/destinations": {
       "get": {
         "summary": "Get all destinations",
@@ -226,11 +229,11 @@
           "200": {
             "description": "Destinations retrieved successfully"
           },
-          "500": {
-            "description": "Server error"
-          },
           "401": {
             "description": "Authentication required. Please log in with GitHub."
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       },
@@ -258,15 +261,16 @@
           "400": {
             "description": "Validation error"
           },
-          "500": {
-            "description": "Server error"
-          },
           "401": {
             "description": "Authentication required. Please log in with GitHub."
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
     },
+
     "/destinations/{id}": {
       "get": {
         "summary": "Get a destination by ID",
@@ -287,14 +291,14 @@
           "400": {
             "description": "Invalid destination ID"
           },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
           "404": {
             "description": "Destination not found"
           },
           "500": {
             "description": "Server error"
-          },
-          "401": {
-            "description": "Authentication required. Please log in with GitHub."
           }
         }
       },
@@ -327,14 +331,14 @@
           "400": {
             "description": "Validation error or invalid destination ID"
           },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
           "404": {
             "description": "Destination not found"
           },
           "500": {
             "description": "Server error"
-          },
-          "401": {
-            "description": "Authentication required. Please log in with GitHub."
           }
         }
       },
@@ -357,19 +361,334 @@
           "400": {
             "description": "Invalid destination ID"
           },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
           "404": {
             "description": "Destination not found"
           },
           "500": {
             "description": "Server error"
+          }
+        }
+      }
+    },
+
+    "/hotels": {
+      "get": {
+        "summary": "Get all hotels",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hotels retrieved successfully"
           },
           "401": {
             "description": "Authentication required. Please log in with GitHub."
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a hotel",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Hotel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Hotel created successfully"
+          },
+          "400": {
+            "description": "Validation error"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+
+    "/hotels/{id}": {
+      "get": {
+        "summary": "Get a hotel by ID",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Hotel retrieved successfully"
+          },
+          "400": {
+            "description": "Invalid hotel ID"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
+          "404": {
+            "description": "Hotel not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a hotel",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Hotel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Hotel updated successfully"
+          },
+          "400": {
+            "description": "Validation error or invalid hotel ID"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
+          "404": {
+            "description": "Hotel not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a hotel",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Hotel deleted successfully"
+          },
+          "400": {
+            "description": "Invalid hotel ID"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
+          "404": {
+            "description": "Hotel not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+
+    "/tours": {
+      "get": {
+        "summary": "Get all tours",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tours retrieved successfully"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a tour",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tour"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Tour created successfully"
+          },
+          "400": {
+            "description": "Validation error"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+
+    "/tours/{id}": {
+      "get": {
+        "summary": "Get a tour by ID",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tour retrieved successfully"
+          },
+          "400": {
+            "description": "Invalid tour ID"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
+          "404": {
+            "description": "Tour not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a tour",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tour"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Tour updated successfully"
+          },
+          "400": {
+            "description": "Validation error or invalid tour ID"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
+          "404": {
+            "description": "Tour not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a tour",
+        "security": [
+          {
+            "cookieAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Tour deleted successfully"
+          },
+          "400": {
+            "description": "Invalid tour ID"
+          },
+          "401": {
+            "description": "Authentication required. Please log in with GitHub."
+          },
+          "404": {
+            "description": "Tour not found"
+          },
+          "500": {
+            "description": "Server error"
           }
         }
       }
     }
   },
+
   "components": {
     "securitySchemes": {
       "cookieAuth": {
@@ -379,6 +698,7 @@
         "description": "Session cookie created after successful GitHub OAuth login."
       }
     },
+
     "parameters": {
       "id": {
         "name": "id",
@@ -390,6 +710,7 @@
         }
       }
     },
+
     "schemas": {
       "Booking": {
         "type": "object",
@@ -426,11 +747,17 @@
           },
           "numberOfPeople": {
             "type": "integer",
+            "minimum": 1,
             "example": 2
           },
           "status": {
             "type": "string",
-            "example": "pending"
+            "enum": [
+              "Pending",
+              "Confirmed",
+              "Cancelled"
+            ],
+            "example": "Pending"
           },
           "specialRequests": {
             "type": "string",
@@ -438,6 +765,7 @@
           }
         }
       },
+
       "Destination": {
         "type": "object",
         "required": [
@@ -465,6 +793,7 @@
           },
           "price": {
             "type": "number",
+            "minimum": 0,
             "example": 250000
           },
           "duration": {
@@ -482,6 +811,113 @@
           "image": {
             "type": "string",
             "example": "murchison-falls.jpg"
+          }
+        }
+      },
+
+      "Hotel": {
+        "type": "object",
+        "required": [
+          "name",
+          "location",
+          "description",
+          "pricePerNight",
+          "rating",
+          "roomsAvailable",
+          "amenities",
+          "image"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Paraa Safari Lodge"
+          },
+          "location": {
+            "type": "string",
+            "example": "Murchison Falls, Uganda"
+          },
+          "description": {
+            "type": "string",
+            "example": "A comfortable safari lodge near Murchison Falls National Park."
+          },
+          "pricePerNight": {
+            "type": "number",
+            "minimum": 0,
+            "example": 450000
+          },
+          "rating": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5,
+            "example": 4.5
+          },
+          "roomsAvailable": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 12
+          },
+          "amenities": {
+            "type": "string",
+            "example": "WiFi, swimming pool, restaurant, parking"
+          },
+          "image": {
+            "type": "string",
+            "example": "paraa-lodge.jpg"
+          }
+        }
+      },
+
+      "Tour": {
+        "type": "object",
+        "required": [
+          "name",
+          "destination",
+          "description",
+          "price",
+          "duration",
+          "category",
+          "maxPeople",
+          "available",
+          "image"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Murchison Falls Safari Tour"
+          },
+          "destination": {
+            "type": "string",
+            "example": "Murchison Falls National Park"
+          },
+          "description": {
+            "type": "string",
+            "example": "A three-day safari experience exploring Murchison Falls National Park."
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0,
+            "example": 850000
+          },
+          "duration": {
+            "type": "string",
+            "example": "3 days"
+          },
+          "category": {
+            "type": "string",
+            "example": "Safari"
+          },
+          "maxPeople": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 10
+          },
+          "available": {
+            "type": "boolean",
+            "example": true
+          },
+          "image": {
+            "type": "string",
+            "example": "murchison-safari.jpg"
           }
         }
       }
