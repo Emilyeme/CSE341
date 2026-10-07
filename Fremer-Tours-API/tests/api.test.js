@@ -12,19 +12,23 @@ import Hotel from "../models/hotels.js";
 import Tour from "../models/tours.js";
 
 import {
-  getAllDestinations
+  getAllDestinations,
+  getDestinationById
 } from "../controllers/destinations.js";
 
 import {
-  getAllBookings
+  getAllBookings,
+  getBookingById
 } from "../controllers/bookings.js";
 
 import {
-  getAllHotels
+  getAllHotels,
+  getHotelById
 } from "../controllers/hotels.js";
 
 import {
-  getAllTours
+  getAllTours,
+  getTourById
 } from "../controllers/tours.js";
 
 
@@ -45,6 +49,7 @@ describe("GET API Controllers", () => {
   });
 
 
+  // DESTINATIONS - GET ALL
   test("GET destinations should return 200 and an array", async () => {
 
     const mockDestinations = [
@@ -69,6 +74,38 @@ describe("GET API Controllers", () => {
   });
 
 
+  // DESTINATIONS - GET BY ID
+  test("GET destination by ID should return 200", async () => {
+
+    const mockDestination = {
+      _id: "507f1f77bcf86cd799439011",
+      name: "Murchison Falls National Park",
+      location: "Masindi, Uganda"
+    };
+
+    jest.spyOn(Destination, "findById")
+      .mockResolvedValue(mockDestination);
+
+    const req = {
+      params: {
+        id: "507f1f77bcf86cd799439011"
+      }
+    };
+
+    const res = mockResponse();
+
+    await getDestinationById(req, res);
+
+    expect(Destination.findById)
+      .toHaveBeenCalledWith("507f1f77bcf86cd799439011");
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockDestination);
+
+  });
+
+
+  // BOOKINGS - GET ALL
   test("GET bookings should return 200 and an array", async () => {
 
     const mockBookings = [
@@ -93,6 +130,38 @@ describe("GET API Controllers", () => {
   });
 
 
+  // BOOKINGS - GET BY ID
+  test("GET booking by ID should return 200", async () => {
+
+    const mockBooking = {
+      _id: "507f1f77bcf86cd799439012",
+      customerName: "Emily Emerson",
+      destination: "Murchison Falls National Park"
+    };
+
+    jest.spyOn(Booking, "findById")
+      .mockResolvedValue(mockBooking);
+
+    const req = {
+      params: {
+        id: "507f1f77bcf86cd799439012"
+      }
+    };
+
+    const res = mockResponse();
+
+    await getBookingById(req, res);
+
+    expect(Booking.findById)
+      .toHaveBeenCalledWith("507f1f77bcf86cd799439012");
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockBooking);
+
+  });
+
+
+  // HOTELS - GET ALL
   test("GET hotels should return 200 and an array", async () => {
 
     const mockHotels = [
@@ -117,6 +186,38 @@ describe("GET API Controllers", () => {
   });
 
 
+  // HOTELS - GET BY ID
+  test("GET hotel by ID should return 200", async () => {
+
+    const mockHotel = {
+      _id: "507f1f77bcf86cd799439013",
+      name: "Murchison Safari Lodge",
+      location: "Masindi, Uganda"
+    };
+
+    jest.spyOn(Hotel, "findById")
+      .mockResolvedValue(mockHotel);
+
+    const req = {
+      params: {
+        id: "507f1f77bcf86cd799439013"
+      }
+    };
+
+    const res = mockResponse();
+
+    await getHotelById(req, res);
+
+    expect(Hotel.findById)
+      .toHaveBeenCalledWith("507f1f77bcf86cd799439013");
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockHotel);
+
+  });
+
+
+  // TOURS - GET ALL
   test("GET tours should return 200 and an array", async () => {
 
     const mockTours = [
@@ -137,6 +238,37 @@ describe("GET API Controllers", () => {
     expect(Tour.find).toHaveBeenCalled();
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(mockTours);
+
+  });
+
+
+  // TOURS - GET BY ID
+  test("GET tour by ID should return 200", async () => {
+
+    const mockTour = {
+      _id: "507f1f77bcf86cd799439014",
+      name: "Murchison Falls Safari Tour",
+      destination: "Murchison Falls National Park"
+    };
+
+    jest.spyOn(Tour, "findById")
+      .mockResolvedValue(mockTour);
+
+    const req = {
+      params: {
+        id: "507f1f77bcf86cd799439014"
+      }
+    };
+
+    const res = mockResponse();
+
+    await getTourById(req, res);
+
+    expect(Tour.findById)
+      .toHaveBeenCalledWith("507f1f77bcf86cd799439014");
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(mockTour);
 
   });
 
